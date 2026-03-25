@@ -60,6 +60,6 @@ Vi har läst detta kontrakt och committerar oss till att följa det tills vi gem
 |       Namn        |        Datum      |  Signatur / OK  |
 |-------------------|-------------------|-----------------|
 | Rasmus Billgren   |  2026-03-25       |       OK        |
-|      |       |               |
+| Neha Chatrath     |  2026-03-25       |       OK      |
 |      |       |               |
 |      |       |               |
