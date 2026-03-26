@@ -20,7 +20,6 @@
 - **Kanal för snabba frågor:** [Discord]
 - **Svarstider:** [Vi försöker svara inom 10-15min. Är man inte tillgänglig så medela gruppen i discord.]
 
-
 ---
 
 ## 🌳 Git-strategi & Kodgranskning
@@ -29,7 +28,6 @@
 - **Branch-namn:** [`feature/skapa-konto`, `fix/meny-bugg` – håll det enkelt]
 - **Pull Requests (PR):** [Minst 1 person måste kolla igenom koden innan vi klickar på merge till main]
 - **Om det blir Git-kaos:** [Vi raderar inget, utan ber läraren eller en klasskompis om hjälp med merge-konflikten]
-
 
 ---
 
@@ -40,7 +38,6 @@
 - **User stories & tekniska tasks:** [Hela gruppen ansvarar över detta.]
 - **När är en uppgift klar?** [Koden funkar, är testad manuellt i Postman och mergad in i main-branch]
 
-
 ---
 
 ## 🛟 Problemlösning & Samarbete
@@ -50,16 +47,15 @@
 - **Om någon blir sjuk eller saknas:** [Vi avvaktar i ca 2 dagar. Känner den sjuka individen att hen behöver hjälp så gör vi en parprogrammering.]
 - **Om samarbetet inte funkar:** [Ta upp det på standup direkt, eller ta in läraren som neutral part ifall det behövs]
 
-
 ---
 
 ## Signatur / bekräftelse
 
 Vi har läst detta kontrakt och committerar oss till att följa det tills vi gemensamt uppdaterar det.
 
-|       Namn        |        Datum      |  Signatur / OK  |
-|-------------------|-------------------|-----------------|
-| Rasmus Billgren   |  2026-03-25       |       OK        |
-| Neha Chatrath     |  2026-03-25       |       OK      |
-|      |       |               |
-|      |       |               |
+| Namn            | Datum      | Signatur / OK |
+| --------------- | ---------- | ------------- |
+| Rasmus Billgren | 2026-03-25 | OK            |
+| Neha Chatrath   | 2026-03-25 | OK            |
+| Sofia Arfwedson | 2026-03-25 | OK            |
+|                 |            |               |
