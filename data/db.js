@@ -3,6 +3,37 @@ import Databas from 'better-sqlite3'
 const DB_PATH = process.env.DB_PATH || './data/Airbean.db'
 const db = new Databas(DB_PATH)
 
-db.exec(``)
+db.exec(`
+    CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    createdAt TEXT DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TEXT
+    );
+    CREATE TABLE IF NOT EXISTS orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    total_amount INTEGER NOT NULL,
+    shipping_address TEXT NOT NULL,
+    delivery_time TEXT,
+    createdAt TEXT DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TEXT
+    );
+    CREATE TABLE IF NOT EXISTS order_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    price INTEGER,
+    quantity INTEGER,
+    product_name TEXT NOT NULL,
+    createdAt TEXT DEFAULT CURRENT_TIMESTAMP
+    );
+    CREATE TABLE IF NOT EXISTS products (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL UNIQUE,
+    price INTEGER,
+    desc TEXT,
+    createdAt DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TEXT
+    );
+    `)
 
 export default db;
