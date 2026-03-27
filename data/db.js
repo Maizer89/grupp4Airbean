@@ -17,14 +17,17 @@ db.exec(`
     shipping_address TEXT NOT NULL,
     delivery_time TEXT,
     createdAt TEXT DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TEXT
+    updatedAt TEXT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
     );
     CREATE TABLE IF NOT EXISTS order_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     price INTEGER,
     quantity INTEGER,
     product_name TEXT NOT NULL,
-    createdAt TEXT DEFAULT CURRENT_TIMESTAMP
+    createdAt TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
     );
     CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
