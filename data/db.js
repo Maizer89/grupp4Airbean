@@ -3,6 +3,8 @@ import Databas from 'better-sqlite3'
 const DB_PATH = process.env.DB_PATH || './data/Airbean.db'
 const db = new Databas(DB_PATH)
 
+db.exec("PRAGMA foreign_keys = ON;");
+
 db.exec(`
     CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
@@ -13,6 +15,7 @@ db.exec(`
     );
     CREATE TABLE IF NOT EXISTS orders (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT,
     total_amount INTEGER NOT NULL,
     shipping_address TEXT NOT NULL,
     delivery_time TEXT,
@@ -22,6 +25,8 @@ db.exec(`
     );
     CREATE TABLE IF NOT EXISTS order_items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_id INTEGER NOT NULL,
+    product_id INTEGER NOT NULL,
     price INTEGER,
     quantity INTEGER,
     product_name TEXT NOT NULL,
@@ -34,7 +39,7 @@ db.exec(`
     title TEXT NOT NULL UNIQUE,
     price INTEGER,
     desc TEXT,
-    createdAt DEFAULT CURRENT_TIMESTAMP,
+    createdAt TEXT DEFAULT CURRENT_TIMESTAMP,
     updatedAt TEXT
     );
     `)
