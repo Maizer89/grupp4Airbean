@@ -28,3 +28,5 @@ router.post("/", (req, res) => {
     res.status(500).json({ fel: "Kunde inte skapa användare" });
   }
 });
+
+export default router;
