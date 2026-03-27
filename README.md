@@ -14,8 +14,8 @@
 
 ```bash
 # Klona repot
-git clone [https://github.com/Maizer89/grupp4Airbean]
-cd [projektmapp]
+git clone https://github.com/Maizer89/grupp4Airbean
+cd grupp4Airbean
 
 # Installera beroenden
 npm install
