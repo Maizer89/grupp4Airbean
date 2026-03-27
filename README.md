@@ -1,4 +1,4 @@
-# [Airbean]
+# Airbean
 
 [Beställa kaffe och få det levererat med drönare.]
 
