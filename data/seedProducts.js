@@ -17,7 +17,7 @@ function seedProducts() {
     });
 
     insertMany(menuData);
-    console.log("Menu data seeded!");
+    console.log('menu.json har lagts till i databasen!')
 }
 
 export default seedProducts;
