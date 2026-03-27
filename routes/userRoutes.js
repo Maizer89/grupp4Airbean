@@ -4,3 +4,5 @@ import db from '../data/db.js';
 
 const router = Router();
 
+
+export default router;
