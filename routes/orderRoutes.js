@@ -6,8 +6,16 @@ const router = Router();
 
 
 router.post('/', orderValidation, (req, res) => {
-    const {totalAmount, shippingAddress, orderItems } = req.body;
-    const deliveryTime = "10-15min leveranstid"
+    const {shippingAddress, orderItems } = req.body;
+    const deliveryTime = "10-15min leveranstid";
+    let totalAmount = 0;
+
+    for (let item of orderItems) {
+        const product = db.prepare('SELECT price FROM products WHERE id = ?').get(item.productId);
+
+        const itemTotal = product.price * item.quantity;
+        totalAmount += itemTotal
+    }
 
     const order = db.prepare(`
         INSERT INTO orders (total_amount, shipping_address, delivery_time)
@@ -33,3 +41,5 @@ router.post('/', orderValidation, (req, res) => {
         orderItems
     })
 })
+
+export default router;
