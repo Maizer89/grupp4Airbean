@@ -1,32 +1,32 @@
 import { Router } from "express";
-import { v4 as uuidv4 } from "uuid";
-import db from "../data/db.js";
+import { v4 as uuidv4 } from "uuid"; // Importera uuidv4 för att generera unika ID:n
+import db from "../data/db.js"; // Importera databasanslutningen
+import { validateUser } from "../middleware/userValid.js";
 
-const router = Router();
+const router = Router(); // Skapa en router-instans
 
-router.post("/", (req, res) => {
-  const { name, email } = req.body; 
-  if (!name || !email)
-  {
-    return res.status(400).json({ fel: "Name och email krävs" });
-  }
-  const id = uuidv4();
-  const createdAt = new Date().toISOString();
+  router.post("/", validateUser, (req, res) => {
+  
+  
+   const { name, email } = req.body;
 
-  try {
-    const stmt = db.prepare(`
+    const id = uuidv4();
+    const createdAt = new Date().toISOString();
+
+    try {
+      const stmt = db.prepare(`
       INSERT INTO users (id, name, email, createdAt)
       VALUES (?, ?, ?, ?)
-    `);
-    stmt.run(id, name, email, createdAt);
+    `); // Förbered SQL-satsen för att infoga en ny användare i databasen
+      stmt.run(id, name, email, createdAt); // Kör SQL-satsen med de angivna värdena
 
-    const newUser = db.prepare("SELECT * FROM users WHERE id = ?").get(id);
+      const newUser = db.prepare("SELECT name, email, createdAt FROM users WHERE id = ?").get(id); // Hämta den nyligen skapade användaren från databasen
 
-    res.status(201).json(newUser);
-  } catch (err) {
-    console.error("POST /users:", err);
-    res.status(500).json({ fel: "Kunde inte skapa användare" });
-  }
-});
-
-export default router;
+      res.status(201).json(newUser); // Resturnera den nya användaren som JSON med statuskod 201 (Created)
+    } catch (err) {
+      //Hantera eventuella fel som kan uppstå under databasoperationen
+      console.error("POST /users:", err); // Logga felet i serverkonsolen för felsökning
+      res.status(500).json({ fel: "Kunde inte skapa användare" }); // Returnera ett felmeddelande i svaret med statuskod 500 (Internal Server Error)
+    }
+  });
+export default router; // Exportera router-instansen så att den kan användas i server.js
