@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { requireApiKey } from '../middlewear/requireApiKey.js'
+import { requireApiKey } from '../middleware/requireApiKey.js'
 import userRoutes from './userRoutes.js'
 import orderRoutes from './orderRoutes.js'
 

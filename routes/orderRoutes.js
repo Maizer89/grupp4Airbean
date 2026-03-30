@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import orderValidation from '../middlewear/orderValidation.js';
+import orderValidation from '../middleware/orderValidation.js';
 import db from '../data/db.js';
 
 const router = Router();
@@ -17,16 +17,17 @@ router.post('/', orderValidation, (req, res) => {
         totalAmount += itemTotal
     }
 
+    const createdAt = new Date().toISOString()
     const order = db.prepare(`
-        INSERT INTO orders (total_amount, shipping_address, delivery_time)
-        VALUES (?, ?, ?)
-        `).run(totalAmount, shippingAddress, deliveryTime);
+        INSERT INTO orders (total_amount, shipping_address, delivery_time, createdAt)
+        VALUES (?, ?, ?, ?)
+        `).run(totalAmount, shippingAddress, deliveryTime, createdAt);
 
     const orderId = order.lastInsertRowid;
 
     const stmt = db.prepare(`
-        INSERT INTO order_items (order_id, product_id, price, quantity, product_name)
-        VALUE (?, ?, ?, ?, ?)
+        INSERT INTO order_items (order_id, product_id, price, quantity, product_name, createdAt)
+        VALUE (?, ?, ?, ?, ?, ?)
         `)
 
     for (let item of orderItems) {
