@@ -58,4 +58,4 @@ Vi har läst detta kontrakt och committerar oss till att följa det tills vi gem
 | Rasmus Billgren | 2026-03-25 | OK            |
 | Neha Chatrath   | 2026-03-25 | OK            |
 | Sofia Arfwedson | 2026-03-25 | OK            |
-|                 |            |               |
+| Rasmus Lindvall | 2026-03-30 | OK            |
