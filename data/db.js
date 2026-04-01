@@ -16,7 +16,7 @@ db.exec(`
     );
     CREATE TABLE IF NOT EXISTS orders (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id TEXT,
+    user_id TEXT NULL,
     total_amount INTEGER NOT NULL,
     shipping_address TEXT NOT NULL,
     delivery_time TEXT,
