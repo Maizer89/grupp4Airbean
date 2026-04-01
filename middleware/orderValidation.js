@@ -13,10 +13,9 @@ export default function orderValidation(req, res, next) {
         if(!Number.isInteger(item.product_id)) {
             return res.status(400).json({ fel: "Produkten hittades inte!" })
         }
-    }
-
-    if(!Number.isInteger(item.quantity) || item.quantity <= 0) {
-        return res.status(400).json({ fel: "Antal får inte vara 0" })
+        if(!Number.isInteger(item.quantity) || item.quantity <= 0) {
+            return res.status(400).json({ fel: "Antal får inte vara 0" })
+        }
     }
 
     next()
