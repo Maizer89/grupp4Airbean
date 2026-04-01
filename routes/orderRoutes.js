@@ -57,7 +57,7 @@ router.get('/my-orders', loggedInAuth, (req, res) => {
         return res.status(401).json({ fel: "Logga in för att se orders" });
     }
 
-    const orders = db.prepare(`SELECT id, total_amount, shipping_address, delivery_time, COALESCE(updatedAt, createdAt) AS date FROM orders WHERE user_id = ?`).all(userId)
+    const orders = db.prepare(`SELECT id, total_amount, shipping_address, delivery_time, createdAt FROM orders WHERE user_id = ?`).all(userId)
     const orderItems = db.prepare(`SELECT product_id, price, quantity, product_name FROM order_items WHERE order_id = ?`)
 
     const result = orders.map(order => {
