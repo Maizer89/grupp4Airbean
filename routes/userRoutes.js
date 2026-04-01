@@ -51,14 +51,6 @@ router.put("/:id", validateUserId, (req, res) => {
   }
 });
 
-      res.status(201).json(newUser); // Resturnera den nya användaren som JSON med statuskod 201 (Created)
-    } catch (err) {
-      //Hantera eventuella fel som kan uppstå under databasoperationen
-      console.error("POST /users:", err); // Logga felet i serverkonsolen för felsökning
-      res.status(500).json({ fel: "Kunde inte skapa användare" }); // Returnera ett felmeddelande i svaret med statuskod 500 (Internal Server Error)
-    }
-  });
-
   //Delete användare konto
   router.delete('/:id', (req, res) =>{
     const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.params.id);
