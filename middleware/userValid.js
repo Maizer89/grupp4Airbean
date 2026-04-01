@@ -7,3 +7,12 @@ export function validateUser(req, res, next) {
     
     next();
 }
+export function validateUserId(req, res, next) {
+    const { id } = req.params;
+
+    if (!id) {
+        return res.status(400).json({ fel: "Användar-ID saknas" });
+    }
+
+    next();
+}
