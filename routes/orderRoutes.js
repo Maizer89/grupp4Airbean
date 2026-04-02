@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import orderShipping from '../middleware/orderShipping.js';
 import orderValidation from '../middleware/orderValidation.js';
 import db from '../data/db.js';
 
@@ -42,5 +43,34 @@ router.post('/', orderValidation, (req, res) => {
         orderItems
     })
 })
+
+// vet ej om jag har gjort rätt... och hur avancerad klockan måste vara?
+router.get('/status/:orderId', orderShipping, (req, res) => {
+    const { orderId } = req.params;
+
+    try {
+    const order = db.prepare('SELECT createdAt FROM orders WHERE id = ?').get(orderId);
+// Ska denna rad nedan också in i middleware?
+    if (!order) {
+        return res.status(404).json({ error: "Order hittades inte." })
+    }
+
+    const totalTime = 15
+    const now = new Date();
+    const createdAt = new Date(order.createdAt);
+    const passedTime = Math.floor((now - createdAt) / 60000);
+    const remainingTime = Math.max(0, totalTime - passedTime);
+
+    res.json({
+        orderId,
+        remainingTime,
+        status: "Shipping"
+    });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Ett fel inträffade." });
+    }
+});
 
 export default router;
