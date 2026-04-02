@@ -30,7 +30,7 @@ router.put('/menu/:id', (req, res) => {
     const {id} = req.params;
     const {title, price, desc} = req.body;
 
-    try{
+   
         const item = db.prepare('SELECT * FROM products WHERE id = ?').get(id);
         if (!item) return res.status(404).json({error: 'Kan inte hitta item i menu'});
         db.prepare(`
@@ -47,10 +47,6 @@ router.put('/menu/:id', (req, res) => {
 
                     const updateProduct = db.prepare('SELECT * FROM products WHERE id = ?').get(id);
                     res.status(200).json(updateProduct);
-    } catch (error) {
-        console.error('PUT/menu/:id', error);
-        res.status(500).json({error: 'Kan inte uppdatera menu item'});
-    }
 
 });
 
