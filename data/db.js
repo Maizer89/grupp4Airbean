@@ -21,7 +21,6 @@ db.exec(`
     shipping_address TEXT NOT NULL,
     delivery_time TEXT,
     createdAt TEXT DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TEXT,
     FOREIGN KEY (user_id) REFERENCES users(id)
     );
     CREATE TABLE IF NOT EXISTS order_items (
