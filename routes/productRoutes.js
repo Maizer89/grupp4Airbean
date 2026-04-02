@@ -1,7 +1,6 @@
 import { Router } from 'express';
 //import { v4 as uuidv4 } from 'uuid';  //ANVÄND OM VI VILL HA UNIKA ID PÅ PRODUCTER? KANSKE BLIR SVÅRT ATT SÖKA PÅ ID?
 import db from '../data/db.js';
-import { validateProduct } from '../middleware/productVaild.js';
 
 const router = Router();
 
@@ -27,7 +26,7 @@ router.get('/menu/:id', (req, res) =>{
 });
 
 //Update (PUT) items on the menu
-router.put('/menu/:id', validateProduct, (req, res) => {
+router.put('/menu/:id', (req, res) => {
     const {id} = req.params;
     const {title, price, desc} = req.body;
 
