@@ -7,7 +7,7 @@ const router = Router();
 
 
 router.post('/', orderValidation, (req, res) => {
-    const {shippingAddress, orderItems } = req.body;
+    const {userId, shippingAddress, orderItems } = req.body;
     const deliveryTime = "10-15min leveranstid";
     let totalAmount = 0;
 
@@ -22,17 +22,17 @@ router.post('/', orderValidation, (req, res) => {
     const order = db.prepare(`
         INSERT INTO orders (total_amount, shipping_address, delivery_time, createdAt)
         VALUES (?, ?, ?, ?)
-        `).run(totalAmount, shippingAddress, deliveryTime, createdAt);
+        `).run(  totalAmount, shippingAddress, deliveryTime, createdAt);
 
     const orderId = order.lastInsertRowid;
 
     const stmt = db.prepare(`
         INSERT INTO order_items (order_id, product_id, price, quantity, product_name, createdAt)
-        VALUE (?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?)
         `)
 
     for (let item of orderItems) {
-        stmt.run(orderId, item.productId, item.price, item.quantity, item.productName)
+        stmt.run(orderId, item.productId, item.price, item.quantity, item.productName, createdAt)
     }
 
     res.json({
