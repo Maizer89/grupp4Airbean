@@ -89,10 +89,15 @@ router.get('/status/:orderId', orderShipping, (req, res) => {
     const passedTime = Math.floor((now - createdAt) / 60000);
     const remainingTime = Math.max(0, totalTime - passedTime);
 
+    let status = "shipping"; 
+
+    if (remainingTime <= 0) {
+        status = "delivered";
+    }
     res.json({
         orderId,
         remainingTime,
-        status: "Shipping"
+        status
     });
 
     } catch (err) {
