@@ -31,16 +31,14 @@ router.get("/menu/:id", (req, res) => {
 });
 
 //Update (PUT) items on the menu
-router.put("/menu/:id", validateProduct, (req, res) => {
-  const { id } = req.params;
-  const { title, price, desc } = req.body;
+router.put('/menu/:id', (req, res) => {
+    const {id} = req.params;
+    const {title, price, desc} = req.body;
 
-  try {
-    const item = db.prepare("SELECT * FROM products WHERE id = ?").get(id);
-    if (!item)
-      return res.status(404).json({ error: "Kan inte hitta item i menu" });
-    db.prepare(
-      `
+   
+        const item = db.prepare('SELECT * FROM products WHERE id = ?').get(id);
+        if (!item) return res.status(404).json({error: 'Kan inte hitta item i menu'});
+        db.prepare(`
             UPDATE products
             SET title = COALESCE(?, title),
                 price = COALESCE(?, price),
