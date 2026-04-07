@@ -1,6 +1,6 @@
 import db from '../data/db.js';
 
-export default function validateProducts(req, res, next) {
+export function validateOrderProducts(req, res, next) {
     const { orderItems } = req.body;
 
     for (let item of orderItems) {
@@ -11,6 +11,16 @@ export default function validateProducts(req, res, next) {
         if (!product) {
             return res.status(400).json({ error: "Produkten finns inte" });
         }
+    }
+
+    next();
+}
+
+export function validateProducts(req, res, next) {
+    const { title, price, desc } = req.body;
+
+    if(!title || !price || !desc) {
+        return res.status(400).json({ fel: "Namn, pris och beskrivning krävs" })
     }
 
     next();
