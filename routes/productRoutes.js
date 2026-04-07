@@ -1,8 +1,8 @@
 import { Router } from "express";
 //import { v4 as uuidv4 } from 'uuid';  //ANVÄND OM VI VILL HA UNIKA ID PÅ PRODUCTER? KANSKE BLIR SVÅRT ATT SÖKA PÅ ID?
 import db from "../data/db.js";
-import { validateProduct } from "../middleware/productVaild.js";
 import requireAdmin from "../middleware/requireAdmin.js";
+import { validateProducts } from "../middleware/validateProducts.js"
 
 const router = Router();
 
@@ -56,14 +56,10 @@ router.put('/menu/:id', (req, res) => {
       .prepare("SELECT * FROM products WHERE id = ?")
       .get(id);
     res.status(200).json(updateProduct);
-  } catch (error) {
-    console.error("PUT/menu/:id", error);
-    res.status(500).json({ error: "Kan inte uppdatera menu item" });
-  }
-});
+})
 
 // Lägg till produkt (admin):
-router.post("/menu", requireAdmin, validateProduct, (req, res) => { // Lägg till en ny produkt i menyn, kräver admin-åtkomst
+router.post("/menu", requireAdmin, validateProducts, (req, res) => { // Lägg till en ny produkt i menyn, kräver admin-åtkomst
   const { title, price, desc } = req.body;
   const createdAt = new Date().toISOString(); // Skapa en tidsstämpel för när produkten skapades
   const result = db // Infoga den nya produkten i databasen
@@ -79,15 +75,5 @@ router.post("/menu", requireAdmin, validateProduct, (req, res) => { // Lägg til
   res.status(201).json({ id: result.lastInsertRowid, title, price, desc }); // Returnera den nya produkten som JSON med statuskod 201 (Created)
 });
 
-// Ta bort produkt (admin):
-router.delete("/menu/:id", requireAdmin, (req, res) => { // Ta bort en produkt från menyn, kräver admin-åtkomst
-  const id = parseInt(req.params.id, 10);
-  const result = db.prepare("DELETE FROM products WHERE id = ?").run(id);
-
-  if (result.changes === 0) { // Om ingen rad påverkades, betyder det att produkten inte fanns
-    return res.status(404).json({ error: "Produkt hittades inte." });
-  }
-  res.status(200).json({ message: "Produkt borttagen." });
-});
 
 export default router;
