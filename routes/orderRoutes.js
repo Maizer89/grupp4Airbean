@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import orderShipping from '../middleware/orderShipping.js';
 import orderValidation from '../middleware/orderValidation.js';
 import loggedInAuth from '../middleware/loggedInAuth.js';
 import validateProducts from '../middleware/validateProducts.js';
@@ -71,5 +72,38 @@ router.get('/my-orders', loggedInAuth, (req, res) => {
 
     res.json(result)
 })
+
+
+router.get('/status/:orderId', orderShipping, (req, res) => {
+    const { orderId } = req.params;
+
+    try {
+    const order = db.prepare('SELECT createdAt FROM orders WHERE id = ?').get(orderId);
+    if (!order) {
+        return res.status(404).json({ error: "Order hittades inte." })
+    }
+
+    const totalTime = 15
+    const now = new Date();
+    const createdAt = new Date(order.createdAt);
+    const passedTime = Math.floor((now - createdAt) / 60000);
+    const remainingTime = Math.max(0, totalTime - passedTime);
+
+    let status = "shipping"; 
+
+    if (remainingTime <= 0) {
+        status = "delivered";
+    }
+    res.json({
+        orderId,
+        remainingTime,
+        status
+    });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Ett fel inträffade." });
+    }
+});
 
 export default router;
