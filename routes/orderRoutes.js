@@ -2,12 +2,12 @@ import { Router } from 'express';
 import orderShipping from '../middleware/orderShipping.js';
 import orderValidation from '../middleware/orderValidation.js';
 import loggedInAuth from '../middleware/loggedInAuth.js';
-import validateProducts from '../middleware/validateProducts.js';
+import { validateOrderProducts } from '../middleware/validateProducts.js';
 import db from '../data/db.js';
 
 const router = Router();
 
-router.post('/', loggedInAuth, orderValidation, validateProducts, (req, res) => {
+router.post('/', loggedInAuth, orderValidation, validateOrderProducts, (req, res) => {
     const {shippingAddress, orderItems } = req.body;
     const userId = req.user?.id || null
     const deliveryTime = "10-15min leveranstid";
@@ -74,13 +74,18 @@ router.get('/my-orders', loggedInAuth, (req, res) => {
 })
 
 
-router.get('/status/:orderId', orderShipping, (req, res) => {
+router.get('/status/:orderId', orderShipping, loggedInAuth, (req, res) => {
     const { orderId } = req.params;
+    const userId = req.user?.id || null;
 
     try {
-    const order = db.prepare('SELECT createdAt FROM orders WHERE id = ?').get(orderId);
+    const order = db.prepare('SELECT user_id, createdAt FROM orders WHERE id = ?').get(orderId);
     if (!order) {
         return res.status(404).json({ error: "Order hittades inte." })
+    }
+
+    if(order.user_id && order.user_id !== userId) {
+        return res.status(403).json({ fel: "Logga in för att se status för denna order" })
     }
 
     const totalTime = 15
