@@ -62,15 +62,20 @@ router.put('/menu/:id', (req, res) => {
 router.post("/menu", requireAdmin, validateProducts, (req, res) => { // Lägg till en ny produkt i menyn, kräver admin-åtkomst
   const { title, price, desc } = req.body;
   const createdAt = new Date().toISOString(); // Skapa en tidsstämpel för när produkten skapades
+  
+  const existingProducts = db.prepare('SELECT title FROM products WHERE title = ?').get(title)
+
+    if (existingProducts)  {
+      return res.status(400).json({ fel: "Produkten finns redan" })
+    }
+  
   const result = db // Infoga den nya produkten i databasen
     .prepare(
       `
         INSERT INTO products (title, price, \`desc\`, createdAt)
         VALUES (?, ?, ?, ?)
     `,
-    )
-    
-    .run(title, price, desc, createdAt);
+    ).run(title, price, desc, createdAt);
 
   res.status(201).json({ id: result.lastInsertRowid, title, price, desc }); // Returnera den nya produkten som JSON med statuskod 201 (Created)
 });
