@@ -61,11 +61,14 @@ Base URL: https://localhost:3000/api/menu
 | DELETE |    /api/users/:id         |                             | -               |204, 404     |
 |--------|---------------------------|-----------------------------|-----------------|-------------|           
 
-1
-Hämta alla kaffealternativ
-GET /api/menu
-Svar (200): (ok) 
+### 1. Hämta alla kaffealternativ
 
+**Endpoint:**
+GET /api/menu
+
+**Svar (200 OK):** 
+```json
+   [
       {
         "id":1,
         "title":"Bryggkaffe",
@@ -77,27 +80,39 @@ Svar (200): (ok)
         "title":"Caffè Doppio",
         "desc":"Bryggd på månadens bönor.",
         "price":49
-      },
-Fel (500): "kan inte fetch menu"
+      }
+   ]
+```
+
+**Fel (500):**
+```json 
+    {
+      "fel": "kan inte fetch menu"
+    }
+```
 ---
-2
+
+2 
 Hämta ett specifikt kattealternativ med id
 GET /api/menu/:id
-Svar (200): (ok) 
-Exempel:
+
+Svar (200): (ok):
       {
         "id":1,
         "title":"Bryggkaffe",
         "desc":"Bryggd på månadens bönor.",
         "price":39
       },
+
+
 Fel (404 + 500): "Kan inte hitta item i menu" + "Kan inte fetch item"
 ---
+
 3
 Kunna se beställningar när man är inloggad
 GET /api/orders/my-orders
+
 Svar (): ok
-Exempel:
 {
         "id": 30,
         "total_amount": 62.4,
@@ -113,6 +128,7 @@ Exempel:
             }
         ]
     }
+
 
 Fel (401): "Logga in för att se orders"
 ---
