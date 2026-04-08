@@ -3,6 +3,7 @@ import orderShipping from '../middleware/orderShipping.js';
 import orderValidation from '../middleware/orderValidation.js';
 import loggedInAuth from '../middleware/loggedInAuth.js';
 import { validateOrderProducts } from '../middleware/validateProducts.js';
+import calcDiscount from '../service/discount.js'
 import db from '../data/db.js';
 
 const router = Router();
@@ -12,14 +13,20 @@ router.post('/', loggedInAuth, orderValidation, validateOrderProducts, (req, res
     const userId = req.user?.id || null
     const deliveryTime = "10-15min leveranstid";
     let totalAmount = 0;
+    let totalQuantity = 0;
     const products = []
 
     for (let item of orderItems) {
         const product = db.prepare('SELECT price, title FROM products WHERE id = ?').get(item.product_id);
-
+        
+        
         products.push(product)
-        totalAmount += product.price * item.quantity
+        totalAmount+= product.price * item.quantity
+        totalQuantity += item.quantity
     }
+    
+    const discount = calcDiscount(totalAmount, totalQuantity)
+    totalAmount -= discount
 
     const createdAt = new Date().toISOString()
     const order = db.prepare(`
