@@ -92,27 +92,38 @@ GET /api/menu
 ```
 ---
 
-2 
-Hämta ett specifikt kattealternativ med id
+ 
+### 2. Hämta ett specifikt kattealternativ med id
+
+**Endpoint:**
 GET /api/menu/:id
 
-Svar (200): (ok):
+**Svar (200 ok):**
+```json
       {
         "id":1,
         "title":"Bryggkaffe",
         "desc":"Bryggd på månadens bönor.",
         "price":39
       },
+```
 
-
-Fel (404 + 500): "Kan inte hitta item i menu" + "Kan inte fetch item"
+**Fel (404 + 500):** 
+```json
+{
+   "Fel": "Kan inte hitta item i menu"  "Kan inte fetch item"
+}
+```
 ---
 
-3
-Kunna se beställningar när man är inloggad
+
+### 3. Kunna se beställningar när man är inloggad
+
+**Endpoint:**
 GET /api/orders/my-orders
 
-Svar (): ok
+**Svar (ok):**
+```json
 {
         "id": 30,
         "total_amount": 62.4,
@@ -128,37 +139,69 @@ Svar (): ok
             }
         ]
     }
+```
 
+**Fel (401):**
+```json
+{
+   "Fel": "Logga in för att se orders"
 
-Fel (401): "Logga in för att se orders"
+}
+```
 ---
-4
-Kunna se status på hur lång tid kvar det är på sin leverans
+
+### 4. Kunna se status på hur lång tid kvar det är på sin leverans
+
+**Endpoint:**
 GET /api/orders/status/orderId
-Svar (200): (ok)
+
+**Svar (200 ok):**
+```json
 {
     "orderId": "10",
     "remainingTime": 0,
     "status": "delivered"
 }
-Fel (403 + 404): "Logga in för att se status för denna order" + "Order hittades inte."
+```
+
+**Fel (403 + 404):** 
+```json
+{
+   "Fel": "Logga in för att se status för denna order"  "Order hittades inte."
+
+}
+```
 ---
-5
-Registrerar en ny användare
+
+### 5. Registrerar en ny användare
+
+**Endpoint:**
 POST /api/users
-Svar (201): (ok)
-Exempel: (Body)
+
+**Svar (201 ok):**
+```json
 {
   "name": "hej Testsson",
   "email": "hej@mail.se"
 }
-Fel (500): "Kunde inte skapa användare"
+```
+
+**Fel (500):**
+```json
+{
+   "Fel":  "Kunde inte skapa användare"
+
+}
+```
 ---
-6
-Lägger till en order
+
+### 6. Lägger till en order
+
+**Endpoint:**
 POST /api/orders
-Svar (ok):
-Exempel: (Body)
+
+**Svar (ok):**
+```json
 {
   "userId": "b13adf84-7d27-4fe0-993e-e09eed473cfe",
   "shippingAddress": "Kaffegatan 1",
@@ -170,25 +213,46 @@ Exempel: (Body)
     }
   ]
 }
-Fel (400): "orderItems måste vara en array och innehålla minst 1 produkt"
+```
+
+**Fel (400):**
+```json
+{
+    "Fel": "orderItems måste vara en array och innehålla minst 1 produkt"
+}
+```
+
 ---
-7
-Lägg till fler beställningsmöjligheter med ADMIN
+
+### 7. Lägg till fler beställningsmöjligheter med ADMIN
+
+**Endpoint:**
 POST /api/menu
-Svar (ok): 201
-Exempel: (Body)
+
+**Svar (201 ok):**
+```json
   {
      "title": "mycketfinkopp te",
      "price": 55,
      "desc": "Bryggd på gårdagens bönor."     
   }
-Fel (403): "Åtkomst nekad. Admin krävs."
+  ```
+
+**Fel (403):**
+```json
+{
+  "fel": "Åtkomst nekad. Admin krävs."
+}
+```
 ---
-8
-Uppdatera items i menu
+
+### 8. Uppdatera items i menu
+
+**Endpoint:**
 PUT /api/menu/id:
-Svar (200): (ok)
-Exempel: (Body)
+
+**Svar (200 ok):**
+```json
 {
     "id": 289,
     "title": "mycketfin kaffe",
@@ -197,27 +261,58 @@ Exempel: (Body)
     "createdAt": "2026-04-08T12:04:04.643Z",
     "updatedAt": "2026-04-08T12:42:10.032Z"
 }
-Fel (404): "kan inte hitta item i menu"
+```
+
+**Fel (404):**
+```json
+{
+   "Fel":  "kan inte hitta item i menu"
+
+}
+```
 ---
-9
-Uppdaterar ett användarkonto med hjälp av COALESCE.
+
+### 9. Uppdaterar ett användarkonto med hjälp av COALESCE.
+
+**Endpoint:**
 PUT /api/users/:id
-Svar (200): (ok)
-Exempel: (Body)
+
+**Svar (200 ok):**
+```json
+{
 "namn": "nytt namn"
 "email": "nytt email"
+}
+```
 
-Fel (500): "Kunde inte uppdatera användare"
+**Fel (500):**
+```json
+{
+   "Fel":  "Kunde inte uppdatera användare"
+ 
+}
+ ```
 ---
 10
-Raderar ett användarkonto
-DELETE /api/users/:id
-Svar (200): (ok)
-{
-    "Konto är raderat"
-}
+### 10. Raderar ett användarkonto
 
-Fel (404): "Kan inte hitta användaren"
+**Endpoint:**
+DELETE /api/users/:id
+
+**Svar (200 ok):**
+```json
+{
+  "Konto är raderat"
+}
+```
+
+**Fel (404):**
+```json
+{
+ "Fel": "Kan inte hitta användaren"
+
+}
+```
 ---
 
 ## WebSocket-diskussion
